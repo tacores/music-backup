@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mbackup", "mbackup\mbackup.csproj", "{64F32B90-B4D9-4A97-9F80-C288311F1F19}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64F32B90-B4D9-4A97-9F80-C288311F1F19}.Debug|x86.ActiveCfg = Debug|x86
+		{64F32B90-B4D9-4A97-9F80-C288311F1F19}.Debug|x86.Build.0 = Debug|x86
+		{64F32B90-B4D9-4A97-9F80-C288311F1F19}.Release|x86.ActiveCfg = Release|x86
+		{64F32B90-B4D9-4A97-9F80-C288311F1F19}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
