@@ -26,10 +26,12 @@ namespace mbackup
         void copyFile(string srcFilePath, string dstFilePath);
 
         /// <summary>
-        /// Create a TreeNodeCollection of the passed folder.
+        /// Set a TreeNodeCollection of the TreeView in passed folder.
+        /// TreeNodeCollection is cleared when this method is invoked.
         /// </summary>
-        /// <param name="folderPath"></param>
-        /// <returns>TreeNodeCollection</returns>
-        TreeNodeCollection createTreeNodeCollection(string folderPath);
+        /// <param name="nodeCollection">The Treeview in which nodes are added.</param>
+        /// <param name="folderPath">A full path of the folder.</param>
+        /// <returns>TreeNodeCollection</returns
+        void setFolderTreeNodeCollection(TreeView treeView, string folderPath);
     }
 }

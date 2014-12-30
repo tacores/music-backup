@@ -70,6 +70,7 @@
             this.listBoxFolder.Name = "listBoxFolder";
             this.listBoxFolder.Size = new System.Drawing.Size(297, 76);
             this.listBoxFolder.TabIndex = 2;
+            this.listBoxFolder.SelectedIndexChanged += new System.EventHandler(this.listBoxFolder_SelectedIndexChanged);
             // 
             // treeViewSrcFolder
             // 
@@ -86,6 +87,7 @@
             this.buttonAddFolder.TabIndex = 4;
             this.buttonAddFolder.Text = "追加";
             this.buttonAddFolder.UseVisualStyleBackColor = true;
+            this.buttonAddFolder.Click += new System.EventHandler(this.buttonAddFolder_Click);
             // 
             // buttonRemoveFolder
             // 
@@ -140,6 +142,7 @@
             this.buttonSelectFolder.TabIndex = 10;
             this.buttonSelectFolder.Text = "選択";
             this.buttonSelectFolder.UseVisualStyleBackColor = true;
+            this.buttonSelectFolder.Click += new System.EventHandler(this.buttonSelectFolder_Click);
             // 
             // textBoxDstFolder
             // 
