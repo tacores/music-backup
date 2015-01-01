@@ -2,29 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 
 namespace tests
 {
     using NUnit.Framework;
     using mbackup;
     using stub;
+    using mbackup.Exceptions;
 
     public class SettingXmlTest
     {
         private SettingXmlImpl sut;
         private TextFileReadWriterStub textFile;
+        private List<string> srcFoldersList;
+        private string dstFolder;
 
         [SetUp]
         public void Init()
         {
             textFile = new TextFileReadWriterStub();
             sut = new SettingXmlImpl(textFile);
+            srcFoldersList = new List<string>();
         }
 
         private SettingXmlImpl createSut()
         {
             sut = new SettingXmlImpl(textFile);
             return sut;
+        }
+
+        private void parseXml(string xml)
+        {
+            try
+            {
+                XDocument doc = XDocument.Parse(xml);
+                {
+                    IEnumerable<XElement> de =
+                        from el in doc.Descendants("SrcPath")
+                        select el;
+                    foreach (XElement el in de)
+                    {
+                        srcFoldersList.Add(el.Value);
+                    }
+                }
+                {
+                    IEnumerable<XElement> de =
+                        from el in doc.Descendants("DstPath")
+                        select el;
+                    foreach (XElement el in de)
+                    {
+                        dstFolder = el.Value;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
 
         [Test]
@@ -94,6 +128,198 @@ namespace tests
 
             Assert.AreEqual(@"C:\Music", result.ElementAt(0));
             Assert.AreEqual(@"D:\Music2", result.ElementAt(1));
+        }
+
+        [Test]
+        public void AddSrcFolder_One_Count()
+        {
+            sut.addSrcFolder(@"C:\Music");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(1, srcFoldersList.Count);
+        }
+
+        [Test]
+        public void AddSrcFolder_One_Path()
+        {
+            sut.addSrcFolder(@"C:\Music");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(@"C:\Music", srcFoldersList.ElementAt(0));
+        }
+
+        [Test]
+        public void AddSrcFolder_Two_Count()
+        {
+            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(@"D:\Music2");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(2, srcFoldersList.Count);
+        }
+
+        [Test]
+        public void AddSrcFolder_Two_Path()
+        {
+            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(@"D:\Music2");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(@"C:\Music", srcFoldersList.ElementAt(0));
+            Assert.AreEqual(@"D:\Music2", srcFoldersList.ElementAt(1));
+        }
+
+        [Test]
+        public void AddSrcFolder_SamePath_ThrowAlreadyExist()
+        {
+            sut.addSrcFolder(@"C:\Music");
+            try
+            {
+                sut.addSrcFolder(@"C:\Music");
+            }
+            catch (AlreadyExistException)
+            {
+                return;
+            }
+            Assert.Fail("AlreadyExistException was not thrown.");
+        }
+
+        [Test]
+        public void AddSrcFolder_SamePath_CountIsNotIncremented()
+        {
+            sut.addSrcFolder(@"C:\Music");
+            try
+            {
+                sut.addSrcFolder(@"C:\Music");
+            }
+            catch (AlreadyExistException)
+            {
+                string xml = textFile.getWriteContent();
+                parseXml(xml);
+                Assert.AreEqual(1, srcFoldersList.Count);
+                return;
+            }
+            Assert.Fail("AlreadyExistException was not thrown.");
+        }
+
+        [Test]
+        public void RemoveSrcFolder_NoExist_ThrowInvalidOperation()
+        {
+            try
+            {
+                sut.removeSrcFolder(@"C:\Music");
+            }
+            catch (InvalidOperationException)
+            {
+                return;
+            }
+            Assert.Fail("InvalidOperationException was not thrown.");
+        }
+
+        [Test]
+        public void RemoveSrcFolder_CountBecomesOne()
+        {
+            //setup
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            //exercise
+            sut.removeSrcFolder(@"C:\Music");
+
+            //verify
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+            Assert.AreEqual(0, srcFoldersList.Count);
+        }
+
+        [Test]
+        public void RemoveSrcFolder_CountBecomesTwo()
+        {
+            //setup
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music2</SrcPath></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            //exercise
+            sut.removeSrcFolder(@"C:\Music");
+
+            //verify
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+            Assert.AreEqual(1, srcFoldersList.Count);
+        }
+
+        [Test]
+        public void RemoveSrcFolder_Path()
+        {
+            //setup
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music2</SrcPath></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            //exercise
+            sut.removeSrcFolder(@"C:\Music");
+
+            //verify
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(0));
+        }
+
+        [Test]
+        public void GetDstFolder_FromFile()
+        {
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<DstFolder><DstPath>F:\backup</DstPath></DstFolder>
+</mbackup>");
+            sut = createSut();
+
+            Assert.AreEqual(@"F:\backup", sut.getDstFolder());
+        }
+
+        [Test]
+        public void SetDstFolder_Once()
+        {
+            sut.setDstFolder(@"F:\backup");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(@"F:\backup", dstFolder);
+        }
+
+        [Test]
+        public void SetDstFolder_Overwrite()
+        {
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<DstFolder><DstPath>F:\backup</DstPath></DstFolder>
+</mbackup>");
+            sut = createSut();
+            sut.setDstFolder(@"F:\backup2");
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual(@"F:\backup2", dstFolder);
         }
     }
 }

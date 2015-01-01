@@ -1,6 +1,6 @@
 ﻿namespace mbackup
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必要なデザイナー変数です。
@@ -41,7 +41,11 @@
             this.buttonSelectFolder = new System.Windows.Forms.Button();
             this.textBoxDstFolder = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Alias = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SrcFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -56,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(300, 14);
+            this.label2.Location = new System.Drawing.Point(394, 14);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(67, 12);
             this.label2.TabIndex = 1;
@@ -66,7 +70,7 @@
             // 
             this.listBoxFolder.FormattingEnabled = true;
             this.listBoxFolder.ItemHeight = 12;
-            this.listBoxFolder.Location = new System.Drawing.Point(14, 53);
+            this.listBoxFolder.Location = new System.Drawing.Point(154, 213);
             this.listBoxFolder.Name = "listBoxFolder";
             this.listBoxFolder.Size = new System.Drawing.Size(297, 76);
             this.listBoxFolder.TabIndex = 2;
@@ -74,9 +78,9 @@
             // 
             // treeViewSrcFolder
             // 
-            this.treeViewSrcFolder.Location = new System.Drawing.Point(14, 135);
+            this.treeViewSrcFolder.Location = new System.Drawing.Point(14, 171);
             this.treeViewSrcFolder.Name = "treeViewSrcFolder";
-            this.treeViewSrcFolder.Size = new System.Drawing.Size(297, 236);
+            this.treeViewSrcFolder.Size = new System.Drawing.Size(297, 200);
             this.treeViewSrcFolder.TabIndex = 3;
             // 
             // buttonAddFolder
@@ -97,6 +101,7 @@
             this.buttonRemoveFolder.TabIndex = 5;
             this.buttonRemoveFolder.Text = "除外";
             this.buttonRemoveFolder.UseVisualStyleBackColor = true;
+            this.buttonRemoveFolder.Click += new System.EventHandler(this.buttonRemoveFolder_Click);
             // 
             // label3
             // 
@@ -146,9 +151,9 @@
             // 
             // textBoxDstFolder
             // 
-            this.textBoxDstFolder.Location = new System.Drawing.Point(373, 11);
+            this.textBoxDstFolder.Location = new System.Drawing.Point(467, 11);
             this.textBoxDstFolder.Name = "textBoxDstFolder";
-            this.textBoxDstFolder.Size = new System.Drawing.Size(312, 19);
+            this.textBoxDstFolder.Size = new System.Drawing.Size(218, 19);
             this.textBoxDstFolder.TabIndex = 11;
             // 
             // treeView1
@@ -158,11 +163,36 @@
             this.treeView1.Size = new System.Drawing.Size(309, 275);
             this.treeView1.TabIndex = 12;
             // 
-            // Form1
+            // dataGridView2
+            // 
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Alias,
+            this.SrcFolder});
+            this.dataGridView2.Location = new System.Drawing.Point(14, 53);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.RowTemplate.Height = 21;
+            this.dataGridView2.Size = new System.Drawing.Size(297, 112);
+            this.dataGridView2.TabIndex = 13;
+            // 
+            // Alias
+            // 
+            this.Alias.HeaderText = "保存先";
+            this.Alias.Name = "Alias";
+            this.Alias.Width = 80;
+            // 
+            // SrcFolder
+            // 
+            this.SrcFolder.HeaderText = "フォルダ";
+            this.SrcFolder.Name = "SrcFolder";
+            this.SrcFolder.Width = 170;
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 456);
+            this.Controls.Add(this.dataGridView2);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.textBoxDstFolder);
             this.Controls.Add(this.buttonSelectFolder);
@@ -176,9 +206,10 @@
             this.Controls.Add(this.listBoxFolder);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.Text = "mbackup";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -199,6 +230,9 @@
         private System.Windows.Forms.Button buttonSelectFolder;
         private System.Windows.Forms.TextBox textBoxDstFolder;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Alias;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SrcFolder;
     }
 }
 

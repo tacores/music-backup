@@ -7,7 +7,7 @@ using System.Windows.Forms;
 namespace mbackup
 {
     /// <summary>
-    /// An interface that represents file system. 
+    /// The interface which represents a file system. 
     /// </summary>
     public interface FileSystem
     {
