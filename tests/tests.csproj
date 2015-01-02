@@ -66,6 +66,8 @@
   <ItemGroup>
     <Compile Include="SettingXmlTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SourceFolderListTest.cs" />
+    <Compile Include="SourceFolderTest.cs" />
     <Compile Include="stub\TextFileReadWriterStub.cs" />
   </ItemGroup>
   <ItemGroup>

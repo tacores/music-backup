@@ -14,7 +14,7 @@ namespace mbackup
         /// Get a list of source folders (backupped folders)
         /// </summary>
         /// <returns></returns>
-        List<string> getSrcFolders();
+        List<SourceFolder> getSrcFolders();
 
         /// <summary>
         /// Add a source folder path to the list.
@@ -22,14 +22,14 @@ namespace mbackup
         /// If the folder already exists, this method throws AlreadyExistException.
         /// </summary>
         /// <param name="folderPath">A source folder path.</param>
-        void addSrcFolder(string folderPath);
+        void addSrcFolder(SourceFolder folderPath);
 
         /// <summary>
         /// Remove a source folder path from the list.
         /// If the folder doesn't exist on the list, this method throws InvalidOperationException.
         /// </summary>
         /// <param name="folderPath">A source folder path.</param>
-        void removeSrcFolder(string folderPath);
+        void removeSrcFolder(SourceFolder folderPath);
 
         /// <summary>
         /// Set a backup destination folder path.

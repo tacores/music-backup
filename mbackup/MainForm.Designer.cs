@@ -177,7 +177,7 @@
             // 
             // Alias
             // 
-            this.Alias.HeaderText = "保存先";
+            this.Alias.HeaderText = "保存名";
             this.Alias.Name = "Alias";
             this.Alias.Width = 80;
             // 

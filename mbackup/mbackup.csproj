@@ -60,6 +60,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="SettingXmlImpl.cs" />
+    <Compile Include="SourceFolder.cs" />
+    <Compile Include="SourceFolderList.cs" />
     <Compile Include="TextFileReadWriter.cs" />
     <Compile Include="TextFileReadWriterImpl.cs" />
     <EmbeddedResource Include="MainForm.resx">

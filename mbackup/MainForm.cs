@@ -15,6 +15,7 @@ namespace mbackup
         private DiContainer container;
         private FileSystem fileSystem;
         private Setting setting;
+        private SourceFolderList sourceFolderList;
 
         public MainForm()
         {
@@ -23,6 +24,7 @@ namespace mbackup
             container = new DiContainer();
             fileSystem = container.getFileSystem();
             setting = container.getSetting();
+            sourceFolderList = new SourceFolderList();
 
             loadSrcFolderList();
             loadDstFolder();
@@ -30,9 +32,9 @@ namespace mbackup
 
         private void loadSrcFolderList()
         {
-            foreach (string folder in setting.getSrcFolders())
+            foreach (SourceFolder folder in setting.getSrcFolders())
             {
-                listBoxFolder.Items.Add(folder);
+                listBoxFolder.Items.Add(folder.Path);
             }
         }
 
@@ -53,13 +55,14 @@ namespace mbackup
 
         private void buttonAddFolder_Click(object sender, EventArgs e)
         {
-            string folder = fileSystem.selectFolder();
-            if (folder != "")
+            string path = fileSystem.selectFolder();
+            if (path != "")
             {
                 try
                 {
+                    SourceFolder folder = sourceFolderList.add(path);
                     setting.addSrcFolder(folder);
-                    listBoxFolder.Items.Add(folder);
+                    listBoxFolder.Items.Add(path);
                 }
                 catch (AlreadyExistException)
                 {
@@ -76,7 +79,7 @@ namespace mbackup
 
         private void buttonRemoveFolder_Click(object sender, EventArgs e)
         {
-            string folder = (string)listBoxFolder.SelectedItem;
+            SourceFolder folder = (SourceFolder)listBoxFolder.SelectedItem;
             try
             {
                 setting.removeSrcFolder(folder);

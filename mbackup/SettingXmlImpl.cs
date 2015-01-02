@@ -11,14 +11,14 @@ namespace mbackup
     public class SettingXmlImpl : Setting
     {
         private TextFileReadWriter fileReadWriter;
-        private List<string> srcFolders;
+        private List<SourceFolder> srcFolders;
         private string dstFolder;
         private const string FileName = "mbackup.xml";
 
         public SettingXmlImpl(TextFileReadWriter fileReader)
         {
             this.fileReadWriter = fileReader;
-            srcFolders = new List<string>();
+            srcFolders = new List<SourceFolder>();
             dstFolder = "";
 
             try
@@ -61,7 +61,7 @@ namespace mbackup
                 select el;
             foreach (XElement el in de)
             {
-                srcFolders.Add(el.Value);
+                //srcFolders.Add(el.Value);
             }
         }
 
@@ -76,14 +76,14 @@ namespace mbackup
             }
         }
 
-        public List<string> getSrcFolders()
+        public List<SourceFolder> getSrcFolders()
         {
             return srcFolders;
         }
 
-        public void addSrcFolder(string folder)
+        public void addSrcFolder(SourceFolder folder)
         {
-            if (srcFolders.Contains(folder))
+            if (isPathContains(folder.Path))
             {
                 throw new AlreadyExistException();
             }
@@ -110,8 +110,9 @@ namespace mbackup
 
         private void addSrcFolderElement(XElement root)
         {
-            foreach (string path in srcFolders)
+            foreach (SourceFolder folder in srcFolders)
             {
+                string path = folder.Path;
                 root.Add(
                     new XElement("SrcFolder",
                         new XElement("SrcPath", new XText(path)))
@@ -130,13 +131,13 @@ namespace mbackup
             }
         }
 
-        public void removeSrcFolder(string folderPath)
+        public void removeSrcFolder(SourceFolder folder)
         {
-            if (!srcFolders.Contains(folderPath))
+            if (!isPathContains(folder.Path))
             {
                 throw new InvalidOperationException();
             }
-            srcFolders.Remove(folderPath);
+            srcFolders.Remove(folder);
             outputXmlFile();
         }
 
@@ -149,6 +150,18 @@ namespace mbackup
         public string getDstFolder()
         {
             return dstFolder;
+        }
+
+        private bool isPathContains(string path)
+        {
+            foreach (SourceFolder folder in srcFolders)
+            {
+                if (folder.Path == path)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

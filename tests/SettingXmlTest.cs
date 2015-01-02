@@ -66,7 +66,7 @@ namespace tests
         {
             textFile.setRead("");
 
-            List<string> result = sut.getSrcFolders();
+            List<SourceFolder> result = sut.getSrcFolders();
 
             Assert.AreEqual(0, result.Count());
         }
@@ -80,7 +80,7 @@ namespace tests
 </mbackup>");
             sut = createSut();
 
-            List<string> result = sut.getSrcFolders();
+            List<SourceFolder> result = sut.getSrcFolders();
 
             Assert.AreEqual(1, result.Count());
         }
@@ -94,9 +94,9 @@ namespace tests
 </mbackup>");
             sut = createSut();
 
-            List<string> result = sut.getSrcFolders();
+            List<SourceFolder> result = sut.getSrcFolders();
 
-            Assert.AreEqual(@"C:\Music", result.ElementAt(0));
+            Assert.AreEqual(@"C:\Music", result.ElementAt(0).Path);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace tests
 </mbackup>");
             sut = createSut();
 
-            List<string> result = sut.getSrcFolders();
+            List<SourceFolder> result = sut.getSrcFolders();
 
             Assert.AreEqual(2, result.Count());
         }
@@ -124,16 +124,16 @@ namespace tests
 </mbackup>");
             sut = createSut();
 
-            List<string> result = sut.getSrcFolders();
+            List<SourceFolder> result = sut.getSrcFolders();
 
-            Assert.AreEqual(@"C:\Music", result.ElementAt(0));
-            Assert.AreEqual(@"D:\Music2", result.ElementAt(1));
+            Assert.AreEqual(@"C:\Music", result.ElementAt(0).Path);
+            Assert.AreEqual(@"D:\Music2", result.ElementAt(1).Path);
         }
 
         [Test]
         public void AddSrcFolder_One_Count()
         {
-            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
 
             string xml = textFile.getWriteContent();
             parseXml(xml);
@@ -144,7 +144,7 @@ namespace tests
         [Test]
         public void AddSrcFolder_One_Path()
         {
-            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
 
             string xml = textFile.getWriteContent();
             parseXml(xml);
@@ -155,8 +155,8 @@ namespace tests
         [Test]
         public void AddSrcFolder_Two_Count()
         {
-            sut.addSrcFolder(@"C:\Music");
-            sut.addSrcFolder(@"D:\Music2");
+            sut.addSrcFolder(new SourceFolder("Music1", @"C:\Music1"));
+            sut.addSrcFolder(new SourceFolder("Music2", @"C:\Music2"));
 
             string xml = textFile.getWriteContent();
             parseXml(xml);
@@ -167,23 +167,23 @@ namespace tests
         [Test]
         public void AddSrcFolder_Two_Path()
         {
-            sut.addSrcFolder(@"C:\Music");
-            sut.addSrcFolder(@"D:\Music2");
+            sut.addSrcFolder(new SourceFolder("Music1", @"C:\Music1"));
+            sut.addSrcFolder(new SourceFolder("Music2", @"C:\Music2"));
 
             string xml = textFile.getWriteContent();
             parseXml(xml);
 
-            Assert.AreEqual(@"C:\Music", srcFoldersList.ElementAt(0));
-            Assert.AreEqual(@"D:\Music2", srcFoldersList.ElementAt(1));
+            Assert.AreEqual(@"C:\Music1", srcFoldersList.ElementAt(0));
+            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(1));
         }
 
         [Test]
         public void AddSrcFolder_SamePath_ThrowAlreadyExist()
         {
-            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
             try
             {
-                sut.addSrcFolder(@"C:\Music");
+                sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
             }
             catch (AlreadyExistException)
             {
@@ -195,10 +195,10 @@ namespace tests
         [Test]
         public void AddSrcFolder_SamePath_CountIsNotIncremented()
         {
-            sut.addSrcFolder(@"C:\Music");
+            sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
             try
             {
-                sut.addSrcFolder(@"C:\Music");
+                sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
             }
             catch (AlreadyExistException)
             {
@@ -215,7 +215,7 @@ namespace tests
         {
             try
             {
-                sut.removeSrcFolder(@"C:\Music");
+                sut.removeSrcFolder(new SourceFolder("Music", @"C:\Music"));
             }
             catch (InvalidOperationException)
             {
@@ -235,7 +235,8 @@ namespace tests
             sut = createSut();
 
             //exercise
-            sut.removeSrcFolder(@"C:\Music");
+            SourceFolder folder = sut.getSrcFolders().ElementAt(0);
+            sut.removeSrcFolder(folder);
 
             //verify
             string xml = textFile.getWriteContent();
@@ -255,7 +256,8 @@ namespace tests
             sut = createSut();
 
             //exercise
-            sut.removeSrcFolder(@"C:\Music");
+            SourceFolder folder = sut.getSrcFolders().ElementAt(0);
+            sut.removeSrcFolder(folder);
 
             //verify
             string xml = textFile.getWriteContent();
@@ -275,7 +277,8 @@ namespace tests
             sut = createSut();
 
             //exercise
-            sut.removeSrcFolder(@"C:\Music");
+            SourceFolder folder = sut.getSrcFolders().ElementAt(0);
+            sut.removeSrcFolder(folder);
 
             //verify
             string xml = textFile.getWriteContent();
