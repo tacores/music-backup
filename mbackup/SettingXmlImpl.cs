@@ -56,12 +56,19 @@ namespace mbackup
 
         private void parseSrcPath(XDocument doc)
         {
-            IEnumerable<XElement> de =
-                from el in doc.Descendants("SrcPath")
+            IEnumerable<XElement> folderDescendants =
+                from el in doc.Descendants("SrcFolder")
                 select el;
-            foreach (XElement el in de)
+            foreach (XElement folderElement in folderDescendants)
             {
-                //srcFolders.Add(el.Value);
+                XElement aliasElement = folderElement.Element("SrcAlias");
+                XElement pathElement = folderElement.Element("SrcPath");
+
+                string alias = aliasElement.Value;
+                string path = pathElement.Value;
+
+                SourceFolder folder = new SourceFolder(alias, path);
+                srcFolders.Add(folder);
             }
         }
 
@@ -113,8 +120,10 @@ namespace mbackup
             foreach (SourceFolder folder in srcFolders)
             {
                 string path = folder.Path;
+                string alias = folder.Alias;
                 root.Add(
                     new XElement("SrcFolder",
+                        new XElement("SrcAlias", new XText(alias)),
                         new XElement("SrcPath", new XText(path)))
                         );
             }

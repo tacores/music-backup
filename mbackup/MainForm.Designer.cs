@@ -30,7 +30,6 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.listBoxFolder = new System.Windows.Forms.ListBox();
             this.treeViewSrcFolder = new System.Windows.Forms.TreeView();
             this.buttonAddFolder = new System.Windows.Forms.Button();
             this.buttonRemoveFolder = new System.Windows.Forms.Button();
@@ -41,11 +40,11 @@
             this.buttonSelectFolder = new System.Windows.Forms.Button();
             this.textBoxDstFolder = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.dataGridViewSrcFolder = new System.Windows.Forms.DataGridView();
             this.Alias = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SrcFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSrcFolder)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -65,16 +64,6 @@
             this.label2.Size = new System.Drawing.Size(67, 12);
             this.label2.TabIndex = 1;
             this.label2.Text = "バックアップ先";
-            // 
-            // listBoxFolder
-            // 
-            this.listBoxFolder.FormattingEnabled = true;
-            this.listBoxFolder.ItemHeight = 12;
-            this.listBoxFolder.Location = new System.Drawing.Point(154, 213);
-            this.listBoxFolder.Name = "listBoxFolder";
-            this.listBoxFolder.Size = new System.Drawing.Size(297, 76);
-            this.listBoxFolder.TabIndex = 2;
-            this.listBoxFolder.SelectedIndexChanged += new System.EventHandler(this.listBoxFolder_SelectedIndexChanged);
             // 
             // treeViewSrcFolder
             // 
@@ -163,17 +152,17 @@
             this.treeView1.Size = new System.Drawing.Size(309, 275);
             this.treeView1.TabIndex = 12;
             // 
-            // dataGridView2
+            // dataGridViewSrcFolder
             // 
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dataGridViewSrcFolder.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewSrcFolder.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Alias,
             this.SrcFolder});
-            this.dataGridView2.Location = new System.Drawing.Point(14, 53);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.RowTemplate.Height = 21;
-            this.dataGridView2.Size = new System.Drawing.Size(297, 112);
-            this.dataGridView2.TabIndex = 13;
+            this.dataGridViewSrcFolder.Location = new System.Drawing.Point(14, 53);
+            this.dataGridViewSrcFolder.Name = "dataGridViewSrcFolder";
+            this.dataGridViewSrcFolder.RowTemplate.Height = 21;
+            this.dataGridViewSrcFolder.Size = new System.Drawing.Size(297, 112);
+            this.dataGridViewSrcFolder.TabIndex = 13;
             // 
             // Alias
             // 
@@ -192,7 +181,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 456);
-            this.Controls.Add(this.dataGridView2);
+            this.Controls.Add(this.dataGridViewSrcFolder);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.textBoxDstFolder);
             this.Controls.Add(this.buttonSelectFolder);
@@ -203,13 +192,12 @@
             this.Controls.Add(this.buttonRemoveFolder);
             this.Controls.Add(this.buttonAddFolder);
             this.Controls.Add(this.treeViewSrcFolder);
-            this.Controls.Add(this.listBoxFolder);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
             this.Text = "mbackup";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSrcFolder)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -219,7 +207,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox listBoxFolder;
         private System.Windows.Forms.TreeView treeViewSrcFolder;
         private System.Windows.Forms.Button buttonAddFolder;
         private System.Windows.Forms.Button buttonRemoveFolder;
@@ -230,7 +217,7 @@
         private System.Windows.Forms.Button buttonSelectFolder;
         private System.Windows.Forms.TextBox textBoxDstFolder;
         private System.Windows.Forms.TreeView treeView1;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dataGridViewSrcFolder;
         private System.Windows.Forms.DataGridViewTextBoxColumn Alias;
         private System.Windows.Forms.DataGridViewTextBoxColumn SrcFolder;
     }

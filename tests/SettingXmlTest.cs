@@ -15,7 +15,7 @@ namespace tests
     {
         private SettingXmlImpl sut;
         private TextFileReadWriterStub textFile;
-        private List<string> srcFoldersList;
+        private List<SourceFolder> srcFoldersList;
         private string dstFolder;
 
         [SetUp]
@@ -23,7 +23,7 @@ namespace tests
         {
             textFile = new TextFileReadWriterStub();
             sut = new SettingXmlImpl(textFile);
-            srcFoldersList = new List<string>();
+            srcFoldersList = new List<SourceFolder>();
         }
 
         private SettingXmlImpl createSut()
@@ -38,12 +38,30 @@ namespace tests
             {
                 XDocument doc = XDocument.Parse(xml);
                 {
-                    IEnumerable<XElement> de =
-                        from el in doc.Descendants("SrcPath")
-                        select el;
-                    foreach (XElement el in de)
+                    List<string> pathList = new List<string>();
+                    List<string> aliasList = new List<string>();
                     {
-                        srcFoldersList.Add(el.Value);
+                        IEnumerable<XElement> de =
+                            from el in doc.Descendants("SrcPath")
+                            select el;
+                        foreach (XElement el in de)
+                        {
+                            pathList.Add(el.Value);
+                        }
+                    }
+                    {
+                        IEnumerable<XElement> de =
+                            from el in doc.Descendants("SrcAlias")
+                            select el;
+                        foreach (XElement el in de)
+                        {
+                            aliasList.Add(el.Value);
+                        }
+                    }
+                    for (int i = 0; i < pathList.Count; ++i)
+                    {
+                        SourceFolder folder = new SourceFolder(aliasList.ElementAt(i), pathList.ElementAt(i));
+                        srcFoldersList.Add(folder);
                     }
                 }
                 {
@@ -76,7 +94,7 @@ namespace tests
         {
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -90,7 +108,7 @@ namespace tests
         {
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -100,12 +118,26 @@ namespace tests
         }
 
         [Test]
+        public void GetSrcFolder_One_Alias()
+        {
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            List<SourceFolder> result = sut.getSrcFolders();
+
+            Assert.AreEqual("Music", result.ElementAt(0).Alias);
+        }
+
+        [Test]
         public void GetSrcFolder_Two_Count()
         {
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
-<SrcFolder><SrcPath>D:\Music2</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>D:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -119,8 +151,8 @@ namespace tests
         {
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
-<SrcFolder><SrcPath>D:\Music2</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>D:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -128,6 +160,22 @@ namespace tests
 
             Assert.AreEqual(@"C:\Music", result.ElementAt(0).Path);
             Assert.AreEqual(@"D:\Music2", result.ElementAt(1).Path);
+        }
+
+        [Test]
+        public void GetSrcFolder_Two_Alias()
+        {
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>D:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            List<SourceFolder> result = sut.getSrcFolders();
+
+            Assert.AreEqual("Music", result.ElementAt(0).Alias);
+            Assert.AreEqual("Music2", result.ElementAt(1).Alias);
         }
 
         [Test]
@@ -149,7 +197,18 @@ namespace tests
             string xml = textFile.getWriteContent();
             parseXml(xml);
 
-            Assert.AreEqual(@"C:\Music", srcFoldersList.ElementAt(0));
+            Assert.AreEqual(@"C:\Music", srcFoldersList.ElementAt(0).Path);
+        }
+
+        [Test]
+        public void AddSrcFolder_One_Alias()
+        {
+            sut.addSrcFolder(new SourceFolder("Music", @"C:\Music"));
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual("Music", srcFoldersList.ElementAt(0).Alias);
         }
 
         [Test]
@@ -173,8 +232,8 @@ namespace tests
             string xml = textFile.getWriteContent();
             parseXml(xml);
 
-            Assert.AreEqual(@"C:\Music1", srcFoldersList.ElementAt(0));
-            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(1));
+            Assert.AreEqual(@"C:\Music1", srcFoldersList.ElementAt(0).Path);
+            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(1).Path);
         }
 
         [Test]
@@ -230,7 +289,7 @@ namespace tests
             //setup
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -250,8 +309,8 @@ namespace tests
             //setup
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
-<SrcFolder><SrcPath>C:\Music2</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>C:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -271,8 +330,8 @@ namespace tests
             //setup
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
 <mbackup>
-<SrcFolder><SrcPath>C:\Music</SrcPath></SrcFolder>
-<SrcFolder><SrcPath>C:\Music2</SrcPath></SrcFolder>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>C:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
 </mbackup>");
             sut = createSut();
 
@@ -283,7 +342,28 @@ namespace tests
             //verify
             string xml = textFile.getWriteContent();
             parseXml(xml);
-            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(0));
+            Assert.AreEqual(@"C:\Music2", srcFoldersList.ElementAt(0).Path);
+        }
+
+        [Test]
+        public void RemoveSrcFolder_Alias()
+        {
+            //setup
+            textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>
+<mbackup>
+<SrcFolder><SrcPath>C:\Music</SrcPath><SrcAlias>Music</SrcAlias></SrcFolder>
+<SrcFolder><SrcPath>C:\Music2</SrcPath><SrcAlias>Music2</SrcAlias></SrcFolder>
+</mbackup>");
+            sut = createSut();
+
+            //exercise
+            SourceFolder folder = sut.getSrcFolders().ElementAt(0);
+            sut.removeSrcFolder(folder);
+
+            //verify
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+            Assert.AreEqual("Music2", srcFoldersList.ElementAt(0).Alias);
         }
 
         [Test]

@@ -32,9 +32,10 @@ namespace mbackup
 
         private void loadSrcFolderList()
         {
+            dataGridViewSrcFolder.Rows.Clear();
             foreach (SourceFolder folder in setting.getSrcFolders())
             {
-                listBoxFolder.Items.Add(folder.Path);
+                dataGridViewSrcFolder.Rows.Add(folder.Alias, folder.Path);
             }
         }
 
@@ -62,7 +63,7 @@ namespace mbackup
                 {
                     SourceFolder folder = sourceFolderList.add(path);
                     setting.addSrcFolder(folder);
-                    listBoxFolder.Items.Add(path);
+                    dataGridViewSrcFolder.Rows.Add(folder.Alias, folder.Path);
                 }
                 catch (AlreadyExistException)
                 {
@@ -70,15 +71,18 @@ namespace mbackup
             }
         }
 
+        /*
         private void listBoxFolder_SelectedIndexChanged(object sender, EventArgs e)
         {
             string folder = (string)listBoxFolder.SelectedItem;
 
             fileSystem.setFolderTreeNodeCollection(treeViewSrcFolder, folder);
         }
+         */
 
         private void buttonRemoveFolder_Click(object sender, EventArgs e)
         {
+            /*
             SourceFolder folder = (SourceFolder)listBoxFolder.SelectedItem;
             try
             {
@@ -88,6 +92,7 @@ namespace mbackup
             catch (InvalidOperationException)
             {
             }
+             */
         }
     }
 }
