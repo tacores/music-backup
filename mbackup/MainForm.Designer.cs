@@ -35,15 +35,14 @@
             this.buttonRemoveFolder = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.buttonSelectFolder = new System.Windows.Forms.Button();
             this.textBoxDstFolder = new System.Windows.Forms.TextBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.dataGridViewSrcFolder = new System.Windows.Forms.DataGridView();
+            this.buttonCalcSize = new System.Windows.Forms.Button();
             this.Alias = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SrcFolder = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSrcFolder)).BeginInit();
             this.SuspendLayout();
             // 
@@ -67,9 +66,9 @@
             // 
             // treeViewSrcFolder
             // 
-            this.treeViewSrcFolder.Location = new System.Drawing.Point(14, 171);
+            this.treeViewSrcFolder.Location = new System.Drawing.Point(14, 214);
             this.treeViewSrcFolder.Name = "treeViewSrcFolder";
-            this.treeViewSrcFolder.Size = new System.Drawing.Size(297, 200);
+            this.treeViewSrcFolder.Size = new System.Drawing.Size(297, 230);
             this.treeViewSrcFolder.TabIndex = 3;
             // 
             // buttonAddFolder
@@ -95,7 +94,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(455, 338);
+            this.label3.Location = new System.Drawing.Point(538, 399);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(41, 12);
             this.label3.TabIndex = 6;
@@ -110,19 +109,10 @@
             this.button1.Text = "コピー";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(14, 377);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowTemplate.Height = 21;
-            this.dataGridView1.Size = new System.Drawing.Size(752, 73);
-            this.dataGridView1.TabIndex = 8;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(455, 359);
+            this.label4.Location = new System.Drawing.Point(538, 420);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 12);
             this.label4.TabIndex = 9;
@@ -149,31 +139,48 @@
             // 
             this.treeView1.Location = new System.Drawing.Point(457, 53);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(309, 275);
+            this.treeView1.Size = new System.Drawing.Size(309, 340);
             this.treeView1.TabIndex = 12;
             // 
             // dataGridViewSrcFolder
             // 
+            this.dataGridViewSrcFolder.AllowUserToAddRows = false;
+            this.dataGridViewSrcFolder.AllowUserToDeleteRows = false;
+            this.dataGridViewSrcFolder.AllowUserToResizeRows = false;
             this.dataGridViewSrcFolder.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridViewSrcFolder.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Alias,
             this.SrcFolder});
             this.dataGridViewSrcFolder.Location = new System.Drawing.Point(14, 53);
+            this.dataGridViewSrcFolder.MultiSelect = false;
             this.dataGridViewSrcFolder.Name = "dataGridViewSrcFolder";
             this.dataGridViewSrcFolder.RowTemplate.Height = 21;
-            this.dataGridViewSrcFolder.Size = new System.Drawing.Size(297, 112);
+            this.dataGridViewSrcFolder.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridViewSrcFolder.Size = new System.Drawing.Size(297, 155);
             this.dataGridViewSrcFolder.TabIndex = 13;
+            // 
+            // buttonCalcSize
+            // 
+            this.buttonCalcSize.Location = new System.Drawing.Point(457, 399);
+            this.buttonCalcSize.Name = "buttonCalcSize";
+            this.buttonCalcSize.Size = new System.Drawing.Size(75, 23);
+            this.buttonCalcSize.TabIndex = 14;
+            this.buttonCalcSize.Text = "再計算";
+            this.buttonCalcSize.UseVisualStyleBackColor = true;
             // 
             // Alias
             // 
             this.Alias.HeaderText = "保存名";
             this.Alias.Name = "Alias";
+            this.Alias.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Alias.Width = 80;
             // 
             // SrcFolder
             // 
             this.SrcFolder.HeaderText = "フォルダ";
             this.SrcFolder.Name = "SrcFolder";
+            this.SrcFolder.ReadOnly = true;
+            this.SrcFolder.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.SrcFolder.Width = 170;
             // 
             // MainForm
@@ -181,12 +188,12 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(778, 456);
+            this.Controls.Add(this.buttonCalcSize);
             this.Controls.Add(this.dataGridViewSrcFolder);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.textBoxDstFolder);
             this.Controls.Add(this.buttonSelectFolder);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonRemoveFolder);
@@ -196,7 +203,6 @@
             this.Controls.Add(this.label1);
             this.Name = "MainForm";
             this.Text = "mbackup";
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewSrcFolder)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -212,12 +218,12 @@
         private System.Windows.Forms.Button buttonRemoveFolder;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonSelectFolder;
         private System.Windows.Forms.TextBox textBoxDstFolder;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.DataGridView dataGridViewSrcFolder;
+        private System.Windows.Forms.Button buttonCalcSize;
         private System.Windows.Forms.DataGridViewTextBoxColumn Alias;
         private System.Windows.Forms.DataGridViewTextBoxColumn SrcFolder;
     }
