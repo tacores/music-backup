@@ -31,6 +31,10 @@ namespace mbackup
         {
         }
 
+        public void copyFolder(string srcFolderPath, string dstFolderPath)
+        {
+        }
+
         public void setFolderTreeNodeCollection(TreeView treeView, string folderPath)
         {
             treeView.BeginUpdate();

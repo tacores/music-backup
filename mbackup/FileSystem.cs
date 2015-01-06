@@ -26,6 +26,14 @@ namespace mbackup
         void copyFile(string srcFilePath, string dstFilePath);
 
         /// <summary>
+        /// Copy a folder.
+        /// This method copy all contents of a source folder to a destination folder.
+        /// </summary>
+        /// <param name="srcFolderPath"></param>
+        /// <param name="dstFolderPath"></param>
+        void copyFolder(string srcFolderPath, string dstFolderPath);
+
+        /// <summary>
         /// Set a TreeNodeCollection of the TreeView in passed folder.
         /// TreeNodeCollection is cleared when this method is invoked.
         /// </summary>

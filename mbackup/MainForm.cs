@@ -94,5 +94,10 @@ namespace mbackup
             }
              */
         }
+
+        private void buttonCopy_Click(object sender, EventArgs e)
+        {
+            // do copy
+        }
     }
 }

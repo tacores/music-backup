@@ -34,7 +34,7 @@
             this.buttonAddFolder = new System.Windows.Forms.Button();
             this.buttonRemoveFolder = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.buttonCopy = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.buttonSelectFolder = new System.Windows.Forms.Button();
             this.textBoxDstFolder = new System.Windows.Forms.TextBox();
@@ -100,14 +100,15 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "残容量";
             // 
-            // button1
+            // buttonCopy
             // 
-            this.button1.Location = new System.Drawing.Point(317, 69);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(134, 46);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "コピー";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonCopy.Location = new System.Drawing.Point(317, 69);
+            this.buttonCopy.Name = "buttonCopy";
+            this.buttonCopy.Size = new System.Drawing.Size(134, 46);
+            this.buttonCopy.TabIndex = 7;
+            this.buttonCopy.Text = "コピー";
+            this.buttonCopy.UseVisualStyleBackColor = true;
+            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // label4
             // 
@@ -194,7 +195,7 @@
             this.Controls.Add(this.textBoxDstFolder);
             this.Controls.Add(this.buttonSelectFolder);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.buttonRemoveFolder);
             this.Controls.Add(this.buttonAddFolder);
@@ -217,7 +218,7 @@
         private System.Windows.Forms.Button buttonAddFolder;
         private System.Windows.Forms.Button buttonRemoveFolder;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button buttonCopy;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button buttonSelectFolder;
         private System.Windows.Forms.TextBox textBoxDstFolder;
