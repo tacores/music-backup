@@ -159,6 +159,7 @@
             this.dataGridViewSrcFolder.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewSrcFolder.Size = new System.Drawing.Size(297, 155);
             this.dataGridViewSrcFolder.TabIndex = 13;
+            this.dataGridViewSrcFolder.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewSrcFolder_CellValueChanged);
             // 
             // buttonCalcSize
             // 

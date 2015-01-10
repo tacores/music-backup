@@ -150,6 +150,11 @@ namespace mbackup
             outputXmlFile();
         }
 
+        public void changeSrcFolderAlias(SourceFolder folder)
+        {
+            outputXmlFile();
+        }
+
         public void setDstFolder(string folderPath)
         {
             dstFolder = folderPath;

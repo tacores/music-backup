@@ -367,6 +367,21 @@ namespace tests
         }
 
         [Test]
+        public void ChangeSrcFolderAlias_One()
+        {
+            SourceFolder folder = new SourceFolder("Music", @"C:\Music");
+            sut.addSrcFolder(folder);
+
+            folder.Alias = "ChangedAlias";
+            sut.changeSrcFolderAlias(folder);
+
+            string xml = textFile.getWriteContent();
+            parseXml(xml);
+
+            Assert.AreEqual("ChangedAlias", srcFoldersList.ElementAt(0).Alias);
+        }
+
+        [Test]
         public void GetDstFolder_FromFile()
         {
             textFile.setRead(@"<?xml version=""1.0"" encoding=""utf-8""?>

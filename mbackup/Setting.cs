@@ -31,6 +31,8 @@ namespace mbackup
         /// <param name="folderPath">A source folder path.</param>
         void removeSrcFolder(SourceFolder folderPath);
 
+        void changeSrcFolderAlias(SourceFolder folder);
+
         /// <summary>
         /// Set a backup destination folder path.
         /// It's expected that external storage is set; such as USB HDD.

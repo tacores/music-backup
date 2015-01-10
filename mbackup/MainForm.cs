@@ -35,6 +35,7 @@ namespace mbackup
             dataGridViewSrcFolder.Rows.Clear();
             foreach (SourceFolder folder in setting.getSrcFolders())
             {
+                sourceFolderList.add(folder);
                 dataGridViewSrcFolder.Rows.Add(folder.Alias, folder.Path);
             }
         }
@@ -97,7 +98,21 @@ namespace mbackup
 
         private void buttonCopy_Click(object sender, EventArgs e)
         {
-            // do copy
+            foreach (SourceFolder folder in sourceFolderList.getList())
+            {
+                string dstPath = textBoxDstFolder.Text + @"\" + folder.Alias;
+                Microsoft.VisualBasic.FileIO.FileSystem.CopyDirectory(folder.Path, dstPath, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs);
+            }
+        }
+
+        private void dataGridViewSrcFolder_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == 0 && 0 <= e.RowIndex)
+            {
+                SourceFolder folder = sourceFolderList.getList().ElementAt(e.RowIndex);
+                folder.Alias = (string)dataGridViewSrcFolder.Rows[e.RowIndex].Cells[0].Value;
+                setting.changeSrcFolderAlias(folder);
+            }
         }
     }
 }
